@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 WORK_DIR="$(dirname "$0")"
 PROJECT_DIR="$(dirname "$WORK_DIR")"
@@ -36,5 +36,5 @@ else
 
     pip install -r $PROJECT_DIR/requirements/local.txt
     pip install -r $PROJECT_DIR/requirements/test.txt
-    
+
 fi

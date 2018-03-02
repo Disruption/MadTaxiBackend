@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 WORK_DIR="$(dirname "$0")"
 DISTRO_NAME=$(lsb_release -sc)
