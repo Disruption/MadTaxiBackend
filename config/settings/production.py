@@ -134,27 +134,34 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
 
 # Use the Heroku-style specification
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-DATABASES['default'] = env.db('DATABASE_URL')
-DATABASES['default']['CONN_MAX_AGE'] = env.int('CONN_MAX_AGE', default=60)
-DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASES = {
+   'default': {
+           "ENGINE": "django.contrib.gis.db.backends.postgis",
+           'NAME': env('DATABASE_NAME'),
+           'USER': env('DATABASE_USER'),
+           'PASSWORD': env('DATABASE_PASSWORD'),
+           'HOST': env('DATABASE_HOST'),
+           'PORT': env('DATABASE_PORT'),
+           'CONN_MAX_AGE': env.int('DATABASE_CONN_MAX_AGE', default=60),
+           'ATOMIC_REQUESTS': True,
+       },
+}
 
 # CACHING
 # ------------------------------------------------------------------------------
-REDIS_LOCATION = '{0}/{1}'.format(env('REDIS_URL', default='redis://127.0.0.1:6379'), 0)
-
 # Heroku URL does not pass the DB number, so we parse it in
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': REDIS_LOCATION,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'IGNORE_EXCEPTIONS': True,  # mimics memcache behavior.
-                                        # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
-        }
-    }
+   'default': {
+       'BACKEND': 'django_redis.cache.RedisCache',
+       'LOCATION': env('REDIS_LOCATION'),
+       'OPTIONS': {
+           'PARSER_CLASS': 'redis.connection.HiredisParser',
+           'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+           'IGNORE_EXCEPTIONS': True,  # mimics memcache behavior.
+                                       # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
+       }
+   }
 }
-
 
 # Sentry Configuration
 SENTRY_DSN = env('DJANGO_SENTRY_DSN')
