@@ -18,6 +18,9 @@ RUN addgroup -S django \
 COPY ./requirements /requirements
 RUN pip install --no-cache-dir -r /requirements/production.txt \
     && rm -rf /requirements
+RUN apt-get update
+RUN apt-get -y install libgdal-dev
+RUN apt-get -y install python-gdal
 
 COPY ./compose/production/django/gunicorn.sh /gunicorn.sh
 RUN sed -i 's/\r//' /gunicorn.sh
