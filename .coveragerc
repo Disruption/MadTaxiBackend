@@ -1,0 +1,5 @@
+[run]
+include = mad_taxi/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
