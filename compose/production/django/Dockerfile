@@ -1,18 +1,9 @@
-FROM python:3.6-alpine
+FROM python:3.6
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update \
-  # psycopg2 dependencies
-  && apk add --virtual build-deps gcc python3-dev musl-dev \
-  && apk add postgresql-dev \
-  # Pillow dependencies
-  && apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev \
-  # CFFI dependencies
-  && apk add libffi-dev openssl-dev py-cffi
-
-RUN addgroup -S django \
-    && adduser -S -G django django
+RUN groupadd -r django \
+    && useradd -r -g django django
 
 # Requirements have to be pulled and installed here, otherwise caching won't work
 COPY ./requirements /requirements
@@ -41,7 +32,6 @@ RUN sed -i 's/\r//' /start-celerybeat.sh
 RUN chmod +x /start-celerybeat.sh
 
 COPY . /app
-
 RUN chown -R django /app
 
 USER django
