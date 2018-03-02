@@ -204,13 +204,13 @@ LOGGING = {
         },
     },
 }
-
-# Custom Admin URL# SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO)
+# SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO)
 # RAVEN_CONFIG = {
 #     'CELERY_LOGLEVEL': env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO),
 #     'DSN': SENTRY_DSN
 # }
-, use {% url 'admin:index' %}
+
+# Custom Admin URL, use {% url 'admin:index' %}
 ADMIN_URL = env('DJANGO_ADMIN_URL')
 
 # Your production stuff: Below this line define 3rd party library settings
